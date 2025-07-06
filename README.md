@@ -1,0 +1,5 @@
+# Stockking
+
+This is a mock investment simulation app. This project analyzes stocks with high potential returns using an AI model and aims to increase the rate of return by making mock investments with a given seed.
+
+This project was written with Vibecoding.
