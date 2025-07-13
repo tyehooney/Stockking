@@ -190,4 +190,34 @@ class KisApiService implements KisApiRepository {
       await getAccessToken();
     }
   }
+
+  @override
+  Future<String> getStockName(String stockCode) async {
+    await _ensureAccessToken();
+
+    final url = Uri.parse('$_baseUrl/uapi/domestic-stock/v1/quotations/search-stock-info?fid_input_iscd=$stockCode');
+    final headers = {
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer $_accessToken',
+      'appkey': CoreModule.getKisAppKey(),
+      'appsecret': CoreModule.getKisAppSecret(),
+      'tr_id': 'CTPF1002R', // 종목 정보 검색
+    };
+
+    final response = await http.get(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      print("Stock name API response: ${response.body}");
+      // Assuming the API returns a list of stocks and we take the first one's name
+      if (data['output'] != null && data['output'].isNotEmpty) {
+        return data['output'][0]['item_name'] ?? stockCode; // 'item_name'은 가상의 필드명
+      } else {
+        return stockCode; // No name found, return stock code
+      }
+    } else {
+      print("Failed to get stock name: ${response.statusCode} ${response.body}");
+      throw Exception('Failed to get stock name');
+    }
+  }
 }

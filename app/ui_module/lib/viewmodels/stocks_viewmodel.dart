@@ -24,7 +24,13 @@ class StocksViewModel extends ChangeNotifier {
 
       for (var code in stockCodes) {
         final stockInfo = await _kisApiService.getCurrentStockPrice(code);
-        fetchedStocks.add(stockInfo);
+        final stockName = await _kisApiService.getStockName(code);
+        fetchedStocks.add(StockInfo(
+          code: stockInfo.code,
+          name: stockName,
+          currentPrice: stockInfo.currentPrice,
+          changeRate: stockInfo.changeRate,
+        ));
         await Future.delayed(Duration(milliseconds: 500)); // Add a delay to avoid rate limiting
       }
       recommendedStocks = fetchedStocks;

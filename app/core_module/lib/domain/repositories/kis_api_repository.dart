@@ -11,4 +11,5 @@ abstract class KisApiRepository {
     required double price,
   });
   Future<Map<String, dynamic>> getAccountBalance(String accountNumber);
+  Future<String> getStockName(String stockCode);
 }

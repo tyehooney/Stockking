@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ui_module/utils/theme.dart';
 import 'package:ui_module/viewmodels/stocks_details_viewmodel.dart';
+import 'package:core_module/data/models/stock_info.dart';
 
 class StocksDetailsScreen extends StatelessWidget {
-  const StocksDetailsScreen({super.key});
+  final StockInfo stock;
+  const StocksDetailsScreen({super.key, required this.stock});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => StocksDetailsViewModel(),
+      create: (_) => StocksDetailsViewModel(stock: stock),
       child: Consumer<StocksDetailsViewModel>(
         builder: (context, stocksDetailsViewModel, child) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Stock Details', style: AppTextStyles.h3),
+              title: Text(stocksDetailsViewModel.stockName, style: AppTextStyles.h3),
               centerTitle: true,
             ),
             body: SingleChildScrollView(
@@ -24,7 +26,7 @@ class StocksDetailsScreen extends StatelessWidget {
                 children: [
                   Text(stocksDetailsViewModel.stockName, style: AppTextStyles.h2),
                   const SizedBox(height: 8.0),
-                  Text('Current Price: \${stocksDetailsViewModel.stockPrice}', style: AppTextStyles.bodyL),
+                  Text('Current Price: ${stocksDetailsViewModel.stockPrice}', style: AppTextStyles.bodyL),
                   const SizedBox(height: 24.0),
                   _buildPriceTrendChart(stocksDetailsViewModel),
                   const SizedBox(height: 24.0),

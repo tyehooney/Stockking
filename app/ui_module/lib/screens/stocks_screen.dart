@@ -39,9 +39,7 @@ class _StocksScreenState extends State<StocksScreen> {
                         _buildSectionHeader(context, 'AI Recommendations'),
                         ...stocksViewModel.recommendedStocks.map((stock) => _buildStockItem(
                               context,
-                              stock.name,
-                              '${stock.changeRate >= 0 ? '+' : ''}${stock.changeRate.toStringAsFixed(2)}%',
-                              stock.changeRate >= 0 ? AppColors.positive : Colors.red,
+                              stock,
                             )).toList(),
                       ],
                     ),
@@ -57,13 +55,16 @@ class _StocksScreenState extends State<StocksScreen> {
     );
   }
 
-  Widget _buildStockItem(BuildContext context, String name, String change, Color color) {
+  Widget _buildStockItem(BuildContext context, StockInfo stock) {
     return Card(
       child: ListTile(
-        title: Text(name, style: AppTextStyles.bodyL.copyWith(color: AppColors.textPrimary)),
-        trailing: Text(change, style: AppTextStyles.bodyL.copyWith(color: color)),
+        title: Text(stock.name, style: AppTextStyles.bodyL.copyWith(color: AppColors.textPrimary)),
+        trailing: Text(
+          '${stock.changeRate >= 0 ? '+' : ''}${stock.changeRate.toStringAsFixed(2)}%',
+          style: AppTextStyles.bodyL.copyWith(color: stock.changeRate >= 0 ? AppColors.positive : Colors.red),
+        ),
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const StocksDetailsScreen()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => StocksDetailsScreen(stock: stock)));
         },
       ),
     );
