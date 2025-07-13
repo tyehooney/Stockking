@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ui_module/screens/my_page_screen.dart';
+import 'package:ui_module/screens/news_screen.dart';
+import 'package:ui_module/screens/stocks_screen.dart';
 import 'package:ui_module/utils/theme.dart';
 
 class OverviewScreen extends StatelessWidget {
@@ -154,38 +157,21 @@ class OverviewScreen extends StatelessWidget {
       child: TextButton(
         onPressed: () {
           // Find the index of the tab and navigate
-          final homeScreenState = context.findAncestorStateOfType<_HomeScreenState>();
-          if (homeScreenState != null) {
-            final tabIndex = homeScreenState._widgetOptions.indexWhere((widget) {
-              if (tab == 'Stocks') return widget is StocksScreen;
-              if (tab == 'News') return widget is NewsScreen;
-              if (tab == 'MyPage') return widget is MyPageScreen;
-              return false;
-            });
-            if (tabIndex != -1) {
-              homeScreenState._onItemTapped(tabIndex);
-            }
-          }
+          // final homeScreenState = context.findAncestorStateOfType<_HomeScreenState>();
+          // if (homeScreenState != null) {
+          //   final tabIndex = homeScreenState._widgetOptions.indexWhere((widget) {
+          //     if (tab == 'Stocks') return widget is StocksScreen;
+          //     if (tab == 'News') return widget is NewsScreen;
+          //     if (tab == 'MyPage') return widget is MyPageScreen;
+          //     return false;
+          //   });
+          //   if (tabIndex != -1) {
+          //     homeScreenState._onItemTapped(tabIndex);
+          //   }
+          // }
         },
-        child: const Text('See More', style: AppTextStyles.button.copyWith(color: AppColors.textPrimary)),
+        child: Text('See More', style: AppTextStyles.button.copyWith(color: AppColors.textPrimary)),
       ),
     );
-  }
-}
-
-// Dummy _HomeScreenState for compilation. The actual state is in home_screen.dart
-class _HomeScreenState extends State<StatefulWidget> {
-  final List<Widget> _widgetOptions = const <Widget>[
-    OverviewScreen(),
-    StocksScreen(),
-    NewsScreen(),
-    MyPageScreen(),
-  ];
-
-  void _onItemTapped(int index) {}
-  
-  @override
-  Widget build(BuildContext context) {
-    throw UnimplementedError();
   }
 }

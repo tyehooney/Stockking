@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SignupScreen()));
                 },
                 child: Text(
-                  'Don't have an account? Sign up',
+                  "Don't have an account? Sign up",
                   style: AppTextStyles.bodyM.copyWith(color: AppColors.textSecondary),
                 ),
               ),

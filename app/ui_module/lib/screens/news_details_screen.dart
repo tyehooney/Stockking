@@ -35,13 +35,13 @@ class NewsDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12.0),
             const Text(
-              'In a bold move, Tech Giant Inc. has announced a significant shift in its investment strategy, focusing on renewable energy and sustainable technologies. This decision comes as part of the company\'s broader commitment to environmental responsibility and long-term growth. The company plans to allocate over \$5 billion over the next five years to fund research and development in these areas, as well as to acquire promising startups in the green tech sector. 
+              '''In a bold move, Tech Giant Inc. has announced a significant shift in its investment strategy, focusing on renewable energy and sustainable technologies. This decision comes as part of the company's broader commitment to environmental responsibility and long-term growth. The company plans to allocate over \$5 billion over the next five years to fund research and development in these areas, as well as to acquire promising startups in the green tech sector. 
 
-Analysts predict that this strategy could not only enhance Tech Giant\'s brand image but also open up new revenue streams in the rapidly expanding market for sustainable solutions. However, some experts caution that the transition may present challenges, including navigating complex regulatory landscapes and managing the risks associated with emerging technologies. 
+Analysts predict that this strategy could not only enhance Tech Giant's brand image but also open up new revenue streams in the rapidly expanding market for sustainable solutions. However, some experts caution that the transition may present challenges, including navigating complex regulatory landscapes and managing the risks associated with emerging technologies. 
 
-The announcement has already sparked considerable interest among investors, with shares of Tech Giant Inc. experiencing a modest uptick in early trading. The company\'s CEO, Eleanor Vance, stated that this investment reflects a belief in the long-term viability of sustainable technologies and their potential to drive future economic growth. 
+The announcement has already sparked considerable interest among investors, with shares of Tech Giant Inc. experiencing a modest uptick in early trading. The company's CEO, Eleanor Vance, stated that this investment reflects a belief in the long-term viability of sustainable technologies and their potential to drive future economic growth. 
 
-Further details regarding specific investment projects and partnerships are expected to be released in the coming months. This strategic pivot by Tech Giant Inc. marks a significant development in the tech industry\'s approach to sustainability and could set a precedent for other major players in the sector.',
+Further details regarding specific investment projects and partnerships are expected to be released in the coming months. This strategic pivot by Tech Giant Inc. marks a significant development in the tech industry's approach to sustainability and could set a precedent for other major players in the sector.''',
               style: AppTextStyles.bodyL,
             ),
           ],
