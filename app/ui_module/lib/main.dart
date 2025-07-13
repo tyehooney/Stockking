@@ -18,6 +18,7 @@ import 'package:ui_module/viewmodels/stocks_details_viewmodel.dart';
 import 'package:ui_module/viewmodels/stocks_viewmodel.dart';
 
 import 'package:core_module/main.dart';
+import 'package:core_module/services/kis_api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SignupViewModel(Supabase.instance.client)),
         ChangeNotifierProvider(create: (_) => HomeViewModel()),
         ChangeNotifierProvider(create: (_) => OverviewViewModel()),
-        ChangeNotifierProvider(create: (_) => StocksViewModel()),
+        ChangeNotifierProvider(create: (_) => StocksViewModel(KisApiService())),
         ChangeNotifierProvider(create: (_) => NewsViewModel()),
         ChangeNotifierProvider(create: (_) => MyPageViewModel()),
         ChangeNotifierProvider(create: (_) => StocksDetailsViewModel()),

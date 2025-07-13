@@ -4,35 +4,49 @@ import 'package:ui_module/screens/stocks_details_screen.dart';
 import 'package:ui_module/utils/theme.dart';
 import 'package:ui_module/viewmodels/stocks_viewmodel.dart';
 
-class StocksScreen extends StatelessWidget {
+class StocksScreen extends StatefulWidget {
   const StocksScreen({super.key});
 
   @override
+  State<StocksScreen> createState() => _StocksScreenState();
+}
+
+class _StocksScreenState extends State<StocksScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<StocksViewModel>(context, listen: false).fetchRecommendedStocks();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => StocksViewModel(),
-      child: Consumer<StocksViewModel>(
-        builder: (context, stocksViewModel, child) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Stocks', style: AppTextStyles.h3),
-              centerTitle: true,
-            ),
-            body: ListView(
-              padding: const EdgeInsets.all(16.0),
-              children: [
-                _buildSectionHeader(context, 'AI Recommendations'),
-                ...stocksViewModel.recommendedStocks.map((stock) => _buildStockItem(
-                  context,
-                  stock['name'],
-                  stock['change'],
-                  stock['change'].startsWith('+') ? AppColors.positive : Colors.red,
-                )).toList(),
-              ],
-            ),
-          );
-        },
-      ),
+    return Consumer<StocksViewModel>(
+      builder: (context, stocksViewModel, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Stocks', style: AppTextStyles.h3),
+            centerTitle: true,
+          ),
+          body: stocksViewModel.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : stocksViewModel.errorMessage != null
+                  ? Center(child: Text('Error: ${stocksViewModel.errorMessage}'))
+                  : ListView(
+                      padding: const EdgeInsets.all(16.0),
+                      children: [
+                        _buildSectionHeader(context, 'AI Recommendations'),
+                        ...stocksViewModel.recommendedStocks.map((stock) => _buildStockItem(
+                              context,
+                              stock.name,
+                              '${stock.changeRate >= 0 ? '+' : ''}${stock.changeRate.toStringAsFixed(2)}%',
+                              stock.changeRate >= 0 ? AppColors.positive : Colors.red,
+                            )).toList(),
+                      ],
+                    ),
+        );
+      },
     );
   }
 
