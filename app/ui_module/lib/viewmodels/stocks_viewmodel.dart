@@ -16,6 +16,7 @@ class StocksViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
+      await _kisApiService.getAccessToken(); // Ensure access token is obtained before fetching stock prices
       // For demonstration, fetching a few hardcoded stock prices.
       // In a real scenario, this would come from an AI model or a predefined list.
       final stockCodes = ['005930', '000660', '035720']; // 삼성전자, SK하이닉스, 카카오
@@ -24,6 +25,7 @@ class StocksViewModel extends ChangeNotifier {
       for (var code in stockCodes) {
         final stockInfo = await _kisApiService.getCurrentStockPrice(code);
         fetchedStocks.add(stockInfo);
+        await Future.delayed(Duration(milliseconds: 500)); // Add a delay to avoid rate limiting
       }
       recommendedStocks = fetchedStocks;
     } catch (e) {

@@ -12,25 +12,48 @@ class KisApiService implements KisApiRepository {
   Future<String> getAccessToken() async {
     if (_accessToken != null) return _accessToken!;
 
-    final url = Uri.parse('$_baseUrl/oauth2/tokenP');
-    final headers = {'Content-Type': 'application/json'};
-    final body = jsonEncode({
-      'grant_type': 'client_credentials',
-      'appkey': CoreModule.getKisAppKey(),
-      'appsecret': CoreModule.getKisAppSecret(),
-    });
+    int retryCount = 0;
+    const maxRetries = 3;
+    const delaySeconds = 5;
 
-    final response = await http.post(url, headers: headers, body: body);
+    while (retryCount < maxRetries) {
+      final url = Uri.parse('$_baseUrl/oauth2/tokenP');
+      final headers = {'Content-Type': 'application/json'};
+      final body = jsonEncode({
+        'grant_type': 'client_credentials',
+        'appkey': CoreModule.getKisAppKey(),
+        'appsecret': CoreModule.getKisAppSecret(),
+      });
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      _accessToken = data['access_token'];
-      print("Access Token: $_accessToken");
-      return _accessToken!;
-    } else {
-      print("Failed to get access token: ${response.statusCode} ${response.body}");
-      throw Exception('Failed to get access token');
+      try {
+        final response = await http.post(url, headers: headers, body: body);
+
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          _accessToken = data['access_token'];
+          print("Access Token: $_accessToken");
+          return _accessToken!;
+        } else {
+          print("Failed to get access token: ${response.statusCode} ${response.body}");
+          if (response.statusCode == 403 && response.body.contains("EGW00133")) {
+            // Rate limit exceeded, retry after delay
+            print("Rate limit exceeded for access token. Retrying in $delaySeconds seconds...");
+            await Future.delayed(Duration(seconds: delaySeconds));
+            retryCount++;
+          } else {
+            throw Exception('Failed to get access token');
+          }
+        }
+      } catch (e) {
+        print("Error getting access token: $e");
+        retryCount++;
+        if (retryCount < maxRetries) {
+          print("Retrying in $delaySeconds seconds...");
+          await Future.delayed(Duration(seconds: delaySeconds));
+        }
+      }
     }
+    throw Exception('Failed to get access token after multiple retries');
   }
 
   @override
@@ -50,10 +73,11 @@ class KisApiService implements KisApiRepository {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+      print("Stock price API response: ${response.body}");
       // Assuming the API returns a structure like { "output": { "stck_prpr": "10000", "stck_nm": "삼성전자", ... } }
       return StockInfo(
         code: stockCode,
-        name: data['output']['stck_nm'] ?? '',
+        name: stockCode, // 임시로 주식 코드를 이름으로 사용
         currentPrice: double.parse(data['output']['stck_prpr'] ?? '0'),
         changeRate: double.parse(data['output']['prdy_ctrt'] ?? '0'), // 전일 대비율
       );
