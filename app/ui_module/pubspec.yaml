@@ -36,8 +36,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   supabase_flutter: ^2.5.0
   provider: ^6.1.2
-  flutter_dotenv: ^5.1.0
-  
   core_module:
     path: ../core_module
 
@@ -62,10 +60,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
-  # To add assets to your application, add an assets section, like this:
-  assets:
-    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

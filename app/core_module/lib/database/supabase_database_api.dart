@@ -1,11 +1,12 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:core_module/database/database_api.dart';
+import 'package:core_module/main.dart';
 
 class SupabaseDatabaseApi implements DatabaseApi {
   final SupabaseClient _supabaseClient;
 
-  SupabaseDatabaseApi(String supabaseUrl, String supabaseAnonKey)
-      : _supabaseClient = SupabaseClient(supabaseUrl, supabaseAnonKey);
+  SupabaseDatabaseApi()
+      : _supabaseClient = Supabase.instance.client;
 
   // User Table Operations
   @override
