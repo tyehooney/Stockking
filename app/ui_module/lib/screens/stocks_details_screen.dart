@@ -1,35 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ui_module/utils/theme.dart';
+import 'package:ui_module/viewmodels/stocks_details_viewmodel.dart';
 
 class StocksDetailsScreen extends StatelessWidget {
   const StocksDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Stock Details', style: AppTextStyles.h3),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Tech Innovators Inc.', style: AppTextStyles.h2),
-            const SizedBox(height: 8.0),
-            Text('Current Price: \$150.25', style: AppTextStyles.bodyL),
-            const SizedBox(height: 24.0),
-            _buildPriceTrendChart(),
-            const SizedBox(height: 24.0),
-            _buildActionButtons(),
-          ],
-        ),
+    return ChangeNotifierProvider(
+      create: (_) => StocksDetailsViewModel(),
+      child: Consumer<StocksDetailsViewModel>(
+        builder: (context, stocksDetailsViewModel, child) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Stock Details', style: AppTextStyles.h3),
+              centerTitle: true,
+            ),
+            body: SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(stocksDetailsViewModel.stockName, style: AppTextStyles.h2),
+                  const SizedBox(height: 8.0),
+                  Text('Current Price: \${stocksDetailsViewModel.stockPrice}', style: AppTextStyles.bodyL),
+                  const SizedBox(height: 24.0),
+                  _buildPriceTrendChart(stocksDetailsViewModel),
+                  const SizedBox(height: 24.0),
+                  _buildActionButtons(),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildPriceTrendChart() {
+  Widget _buildPriceTrendChart(StocksDetailsViewModel viewModel) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -41,8 +50,8 @@ class StocksDetailsScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('\$150.25', style: AppTextStyles.h1.copyWith(fontSize: 32)),
-                Text('+12%', style: AppTextStyles.h3.copyWith(color: AppColors.positive)),
+                Text(viewModel.stockPrice, style: AppTextStyles.h1.copyWith(fontSize: 32)),
+                Text(viewModel.stockChange, style: AppTextStyles.h3.copyWith(color: viewModel.stockChangeColor)),
               ],
             ),
             const SizedBox(height: 8.0),

@@ -1,27 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ui_module/screens/stocks_details_screen.dart';
 import 'package:ui_module/utils/theme.dart';
+import 'package:ui_module/viewmodels/stocks_viewmodel.dart';
 
 class StocksScreen extends StatelessWidget {
   const StocksScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Stocks', style: AppTextStyles.h3),
-        centerTitle: true,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          _buildSectionHeader(context, 'AI Recommendations'),
-          _buildStockItem(context, 'Tech Innovators Inc.', '+2.3%', AppColors.positive),
-          _buildStockItem(context, 'Global Energy Corp.', '-1.5%', Colors.red),
-          _buildStockItem(context, 'Health Solutions Ltd.', '+0.8%', AppColors.positive),
-          _buildStockItem(context, 'Financial Services Group', '-0.5%', Colors.red),
-          _buildStockItem(context, 'Consumer Goods Co.', '+1.2%', AppColors.positive),
-        ],
+    return ChangeNotifierProvider(
+      create: (_) => StocksViewModel(),
+      child: Consumer<StocksViewModel>(
+        builder: (context, stocksViewModel, child) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Stocks', style: AppTextStyles.h3),
+              centerTitle: true,
+            ),
+            body: ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: [
+                _buildSectionHeader(context, 'AI Recommendations'),
+                ...stocksViewModel.recommendedStocks.map((stock) => _buildStockItem(
+                  context,
+                  stock['name'],
+                  stock['change'],
+                  stock['change'].startsWith('+') ? AppColors.positive : Colors.red,
+                )).toList(),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

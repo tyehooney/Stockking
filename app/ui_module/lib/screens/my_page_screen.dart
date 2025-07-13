@@ -1,40 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ui_module/utils/theme.dart';
+import 'package:ui_module/viewmodels/my_page_viewmodel.dart';
 
 class MyPageScreen extends StatelessWidget {
   const MyPageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Page', style: AppTextStyles.h3),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildProfileHeader(),
-            const SizedBox(height: 24.0),
-            _buildBalanceInfo(),
-            const SizedBox(height: 24.0),
-            _buildSectionHeader('Account'),
-            _buildMenuItem(Icons.settings, 'Account Settings'),
-            _buildMenuItem(Icons.notifications, 'Notifications'),
-            _buildMenuItem(Icons.security, 'Security'),
-            const SizedBox(height: 24.0),
-            _buildSectionHeader('Support'),
-            _buildMenuItem(Icons.help_center, 'Help Center'),
-            _buildMenuItem(Icons.contact_support, 'Contact Us'),
-          ],
-        ),
+    return ChangeNotifierProvider(
+      create: (_) => MyPageViewModel(),
+      child: Consumer<MyPageViewModel>(
+        builder: (context, myPageViewModel, child) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('My Page', style: AppTextStyles.h3),
+              centerTitle: true,
+            ),
+            body: SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildProfileHeader(myPageViewModel),
+                  const SizedBox(height: 24.0),
+                  _buildBalanceInfo(myPageViewModel),
+                  const SizedBox(height: 24.0),
+                  _buildSectionHeader('Account'),
+                  _buildMenuItem(Icons.settings, 'Account Settings'),
+                  _buildMenuItem(Icons.notifications, 'Notifications'),
+                  _buildMenuItem(Icons.security, 'Security'),
+                  const SizedBox(height: 24.0),
+                  _buildSectionHeader('Support'),
+                  _buildMenuItem(Icons.help_center, 'Help Center'),
+                  _buildMenuItem(Icons.contact_support, 'Contact Us'),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildProfileHeader() {
+  Widget _buildProfileHeader(MyPageViewModel viewModel) {
     return Row(
       children: [
         const CircleAvatar(radius: 40, child: Icon(Icons.person, size: 40)),
@@ -42,24 +51,24 @@ class MyPageScreen extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Ethan Carter', style: AppTextStyles.h2),
+            Text(viewModel.userName, style: AppTextStyles.h2),
             const SizedBox(height: 4.0),
-            Text('ID: 12345678', style: AppTextStyles.bodyM),
+            Text('Portfolio Value: \${viewModel.portfolioValue}', style: AppTextStyles.bodyM),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildBalanceInfo() {
+  Widget _buildBalanceInfo(MyPageViewModel viewModel) {
     return Row(
       children: [
         Expanded(
-          child: _buildBalanceCard('Current Balance', '100,000'),
+          child: _buildBalanceCard('Current Profit', viewModel.currentProfit),
         ),
         const SizedBox(width: 12.0),
         Expanded(
-          child: _buildBalanceCard('Estimated Profit', '50,000'),
+          child: _buildBalanceCard('Estimated Profit', viewModel.expectedProfit),
         ),
       ],
     );
