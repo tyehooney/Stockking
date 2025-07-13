@@ -50,6 +50,10 @@ file
 3.0
 file:///Users/tyehooney/.pub-cache/hosted/pub.dev/file-7.0.1/
 file:///Users/tyehooney/.pub-cache/hosted/pub.dev/file-7.0.1/lib/
+flutter_dotenv
+2.12
+file:///Users/tyehooney/.pub-cache/hosted/pub.dev/flutter_dotenv-5.2.1/
+file:///Users/tyehooney/.pub-cache/hosted/pub.dev/flutter_dotenv-5.2.1/lib/
 flutter_lints
 2.19
 file:///Users/tyehooney/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3/
@@ -296,8 +300,8 @@ file:///Users/tyehooney/.pub-cache/hosted/pub.dev/yet_another_json_isolate-2.1.0
 file:///Users/tyehooney/.pub-cache/hosted/pub.dev/yet_another_json_isolate-2.1.0/lib/
 core_module
 3.0
-file:///Users/tyehooney/Desktop/projects/study/gemini-project/Stockking/core_module/
-file:///Users/tyehooney/Desktop/projects/study/gemini-project/Stockking/core_module/lib/
+file:///Users/tyehooney/Desktop/projects/study/gemini-project/Stockking/app/core_module/
+file:///Users/tyehooney/Desktop/projects/study/gemini-project/Stockking/app/core_module/lib/
 sky_engine
 3.7
 file:///Users/tyehooney/development/flutter/bin/cache/pkg/sky_engine/
