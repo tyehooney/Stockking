@@ -5,6 +5,7 @@ import 'package:ui_module/screens/home_screen.dart';
 import 'package:ui_module/screens/login_screen.dart';
 import 'package:ui_module/screens/splash_screen.dart';
 import 'package:ui_module/utils/constants.dart';
+import 'package:ui_module/utils/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,15 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Stockking',
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.green,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
-            foregroundColor: Colors.white,
-          ),
-        ),
-      ),
+      theme: getAppTheme(),
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
